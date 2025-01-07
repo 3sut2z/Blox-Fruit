@@ -59,5 +59,9 @@ local C0de = {
     "Chandler",
     "NEWTROLL",
     "KITT_RESET",
+    "Sub2CaptainMaui",
+    "THEGREATACE",
+    "SUB2UNCLEKIZARU",
+    "SUB2NOOBMASTER123",
 }
 return C0de
