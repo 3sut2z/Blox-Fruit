@@ -910,7 +910,7 @@ end
 
 -- [Code Api]
 
-local CodeApi = loadstring(game:HttpGet('https://pastebin.com/raw/EK13Njf3'))()
+local CodeApi = loadstring(game:HttpGet('https://raw.githubusercontent.com/3sut2z/Dragon-HUB/main/code.txt'))()
 
 -- [Comma Value]
 
