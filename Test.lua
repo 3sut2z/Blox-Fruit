@@ -2291,10 +2291,10 @@ end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ------AttackNoCD
-
     local plr = game.Players.LocalPlayer
 	local CbFw = getupvalues(require(plr.PlayerScripts.CombatFramework))
 	local CbFw2 = CbFw[2]
+
     function GetCurrentBlade() 
         local p13 = CbFw2.activeController
         local ret = p13.blades[1]
