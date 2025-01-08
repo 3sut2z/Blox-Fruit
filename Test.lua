@@ -2291,7 +2291,8 @@ end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ------AttackNoCD
-    local plr = game.Players.LocalPlayer
+    
+local plr = game.Players.LocalPlayer
 	local CbFw = getupvalues(require(plr.PlayerScripts.CombatFramework))
 	local CbFw2 = CbFw[2]
 
