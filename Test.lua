@@ -2291,83 +2291,96 @@ end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 ------AttackNoCD
-    
-local plr = game.Players.LocalPlayer
-	local CbFw = getupvalues(require(plr.PlayerScripts.CombatFramework))
-	local CbFw2 = CbFw[2]
 
-    function GetCurrentBlade() 
-        local p13 = CbFw2.activeController
-        local ret = p13.blades[1]
-        if not ret then return end
-        while ret.Parent~=game.Players.LocalPlayer.Character do ret=ret.Parent end
-        return ret
+local AutoFarmMasDevilFruit = false
+local AutoFarmMasGun = false
+local Auto_Raid = false
+
+local plr = game.Players.LocalPlayer
+local CombatFramework = require(plr.PlayerScripts.CombatFramework)
+local CbFw = getupvalues(CombatFramework)
+local CbFw2 = CbFw[2]
+
+function GetCurrentBlade()
+    local activeController = CbFw2.activeController
+    local blade = activeController.blades[1]
+    if not blade then return end
+    while blade.Parent ~= game.Players.LocalPlayer.Character do
+        blade = blade.Parent
     end
-    
-    function AttackNoCD()
-        if not AutoFarmMasDevilFruit or AutoFarmMasGun then
-            if not Auto_Raid then
-                local AC = CbFw2.activeController
-                for i = 1, 1 do 
-                    local bladehit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
-                        plr.Character,
-                        {plr.Character.HumanoidRootPart},
-                        60
-                    )
-                    local cac = {}
-                    local hash = {}
-                    for k, v in pairs(bladehit) do
-                        if v.Parent:FindFirstChild("HumanoidRootPart") and not hash[v.Parent] then
-                            table.insert(cac, v.Parent.HumanoidRootPart)
-                            hash[v.Parent] = true
-                        end
-                    end
-                    bladehit = cac
-                    if #bladehit > 0 then
-                        local u8 = debug.getupvalue(AC.attack, 5)
-                        local u9 = debug.getupvalue(AC.attack, 6)
-                        local u7 = debug.getupvalue(AC.attack, 4)
-                        local u10 = debug.getupvalue(AC.attack, 7)
-                        local u12 = (u8 * 798405 + u7 * 727595) % u9
-                        local u13 = u7 * 798405
-                        (function()
-                            u12 = (u12 * u9 + u13) % 1099511627776
-                            u8 = math.floor(u12 / u9)
-                            u7 = u12 - u8 * u9
-                        end)()
-                        u10 = u10 + 1
-                        debug.setupvalue(AC.attack, 5, u8)
-                        debug.setupvalue(AC.attack, 6, u9)
-                        debug.setupvalue(AC.attack, 4, u7)
-                        debug.setupvalue(AC.attack, 7, u10)
-                        pcall(function()
-                            if plr.Character:FindFirstChildOfClass("Tool") and AC.blades and AC.blades[1] then
-                                AC.animator.anims.basic[1]:Play(0.01,0.01,0.01)
-                                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(GetCurrentBlade()))
-                                game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
-                                game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", bladehit, i, "")
-                            end
-                        end)
-                    end
-                end
+    return blade
+end
+
+function AttackNoCD()
+    if not AutoFarmMasDevilFruit and not AutoFarmMasGun and not Auto_Raid then
+        local activeController = CbFw2.activeController
+
+        local bladeHits = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+            plr.Character,
+            {plr.Character.HumanoidRootPart},
+            60
+        )
+        
+        local hitTargets = {}
+        local hitHash = {}
+        
+        for _, hit in pairs(bladeHits) do
+            if hit.Parent:FindFirstChild("HumanoidRootPart") and not hitHash[hit.Parent] then
+                table.insert(hitTargets, hit.Parent.HumanoidRootPart)
+                hitHash[hit.Parent] = true
             end
         end
-    end
-    
---Attack Mastery
-    function NormalAttack()
-        if not _G.NormalAttack then
-            local Module = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework)
-            local CombatFramework = debug.getupvalues(Module)[2]
-            local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
-            CamShake:Stop()
-            CombatFramework.activeController.attacking = false
-            CombatFramework.activeController.timeToNextAttack = 0
-            CombatFramework.activeController.hitboxMagnitude = 180
-            game:GetService'VirtualUser':CaptureController()
-            game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+
+        if #hitTargets > 0 then
+            local u8 = debug.getupvalue(activeController.attack, 5)
+            local u9 = debug.getupvalue(activeController.attack, 6)
+            local u7 = debug.getupvalue(activeController.attack, 4)
+            local u10 = debug.getupvalue(activeController.attack, 7)
+
+            local u12 = (u8 * 798405 + u7 * 727595) % u9
+            local u13 = u7 * 798405
+
+            (function()
+                u12 = (u12 * u9 + u13) % 1099511627776
+                u8 = math.floor(u12 / u9)
+                u7 = u12 - u8 * u9
+            end)()
+
+            u10 = u10 + 1
+
+            debug.setupvalue(activeController.attack, 5, u8)
+            debug.setupvalue(activeController.attack, 6, u9)
+            debug.setupvalue(activeController.attack, 4, u7)
+            debug.setupvalue(activeController.attack, 7, u10)
+
+            pcall(function()
+                if plr.Character:FindFirstChildOfClass("Tool") and activeController.blades and activeController.blades[1] then
+                    activeController.animator.anims.basic[1]:Play(0.01, 0.01, 0.01)
+                    game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(GetCurrentBlade()))
+                    game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(u12 / 1099511627776 * 16777215), u10)
+                    game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("hit", hitTargets, 1, "")
+                end
+            end)
         end
     end
+end
+
+function NormalAttack()
+    if not _G.NormalAttack then
+        local Module = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework)
+        local CombatFramework = debug.getupvalues(Module)[2]
+        local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
+        
+        CamShake:Stop()
+        
+        CombatFramework.activeController.attacking = false
+        CombatFramework.activeController.timeToNextAttack = 0
+        CombatFramework.activeController.hitboxMagnitude = 180
+        
+        game:GetService('VirtualUser'):CaptureController()
+        game:GetService('VirtualUser'):Button1Down(Vector2.new(1280, 672))
+    end
+end
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
