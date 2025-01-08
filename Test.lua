@@ -21,7 +21,7 @@ local Tabs = {
     Raid = Window:AddTab({ Title = "Raid", Icon = "swords" }),
     Race = Window:AddTab({ Title = "Race V4", Icon = "chevrons-right" }),
     Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
-	Misc = Window:AddTab({ Title = "Misc", Icon = "list-plus" }),
+    Misc = Window:AddTab({ Title = "Misc", Icon = "list-plus" }),
     Hop = Window:AddTab({ Title = "Hop", Icon = "wifi" }),
 }
 local Options = Fluent.Options
@@ -1998,6 +1998,7 @@ function BTP(Position)
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Position
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
 end
+
 --BTPZ
 function BTPZ(Point)
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = Point
