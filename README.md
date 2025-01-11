@@ -1,5 +1,5 @@
 # Dragon-HUB
 
-Please wait for me to update Dragon HUB to version new to match Blox Fruit's Dragon update.
+Script By ! Orbit
 
 Follow Dragon HUB updates: https://discord.gg/wC9SnAB8En
