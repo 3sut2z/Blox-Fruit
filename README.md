@@ -2,4 +2,4 @@
 
 Script By ! Orbit
 
-Follow Dragon HUB updates: https://discord.gg/wC9SnAB8En
+Follow Dragon HUB updates: [Discord Dragon HUB](https://discord.gg/jgxY2x7hCW)
